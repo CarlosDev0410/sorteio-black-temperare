@@ -22,7 +22,7 @@ export default function Home() {
         <header className="fixed top-0 left-0 right-0 z-50 py-3 px-4 border-b border-gray-800/30 backdrop-blur-md bg-black/10">
           <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
             <img
-              src="https://mocha-cdn.com/019a9bfb-ff11-78e7-b10c-5f2fc1b62b29/logo.png"
+              src="logo.png"
               alt="Temperare Logo"
               className="h-20 md:h-24 object-cover"
             />
@@ -57,7 +57,7 @@ export default function Home() {
             
               <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden h-full flex items-center justify-center p-0 shadow-xl">
                 <img
-                  src="https://mocha-cdn.com/019a9bfb-ff11-78e7-b10c-5f2fc1b62b29/produto-sorteio.png"
+                  src="produto-sorteio.png"
                   alt="Liquidificador Profissional"
                   className="w-full h-full object-cover rounded-2xl"
                 />
