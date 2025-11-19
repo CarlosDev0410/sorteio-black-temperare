@@ -13,38 +13,23 @@ export default function RaffleForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
 
-    try {
-      const response = await fetch("/api/raffle/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    // Simula uma chamada de API de 1.5 segundos.
+    // No futuro, aqui entrará a lógica para enviar os dados ao Supabase.
+    setTimeout(() => {
+      setIsSuccess(true);
+      setFormData({
+        name: "",
+        email: "",
+        contact: "",
+        area_of_expertise: "",
       });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setIsSuccess(true);
-        setFormData({
-          name: "",
-          email: "",
-          contact: "",
-          area_of_expertise: "",
-        });
-      } else {
-        setError(data.error || "Erro ao enviar inscrição");
-      }
-    } catch (err) {
-      setError("Erro ao enviar inscrição. Tente novamente.");
-    } finally {
       setIsSubmitting(false);
-    }
+    }, 1500);
   };
 
   const handleChange = (
