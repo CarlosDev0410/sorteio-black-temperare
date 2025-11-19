@@ -24,7 +24,7 @@ export default function Home() {
             <img
               src="logo.png"
               alt="Temperare Logo"
-              className="h-20 md:h-24 object-cover"
+              className="h-16 md:h-24 object-cover"
             />
             <button
               onClick={scrollToForm}
