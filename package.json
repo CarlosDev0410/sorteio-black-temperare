@@ -13,6 +13,7 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
+    "@dyad-sh/react-vite-component-tagger": "^0.8.0",
     "@eslint/js": "9.25.1",
     "@getmocha/users-service": "^0.0.4",
     "@getmocha/vite-plugins": "latest",
