@@ -19,7 +19,7 @@ export default function Home() {
 
       <div className="relative z-10">
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 z-50   border-b border-gray-800/30 backdrop-blur-md bg-black/10">
+        <header className="fixed top-0 left-0 right-0 z-50 py-3 border-b border-gray-800/30 backdrop-blur-md bg-black/10">
           <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
             <img
               src="logo.png"
