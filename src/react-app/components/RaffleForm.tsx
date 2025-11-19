@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Loader2, Check, Mail, KeyRound } from "lucide-react";
+import { Loader2, Check } from "lucide-react";
 import { ZodError } from "zod";
 import { EmailSchema, RaffleEntryDetailsSchema, type RaffleEntryDetails } from "@/shared/types";
 import { supabase } from "@/integrations/supabase/client";
