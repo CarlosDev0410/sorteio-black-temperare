@@ -15,7 +15,8 @@
     {
       "binding": "DB",
       "database_name": "019a9bfb-ff11-78e7-b10c-5f2fc1b62b29",
-      "database_id": "019a9bfb-ff11-78e7-b10c-5f2fc1b62b29"
+      "database_id": "019a9bfb-ff11-78e7-b10c-5f2fc1b62b29",
+      "migrations_dir": "migrations"
     }
   ],
   "r2_buckets": [
