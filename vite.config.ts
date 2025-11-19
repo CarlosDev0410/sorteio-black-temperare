@@ -10,9 +10,6 @@ export default defineConfig({
   server: {
     allowedHosts: true,
   },
-  optimizeDeps: {
-    include: ["googleapis"],
-  },
   build: {
     chunkSizeWarningLimit: 5000,
   },
