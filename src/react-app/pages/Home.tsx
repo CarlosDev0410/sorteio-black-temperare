@@ -16,7 +16,7 @@ export default function RaffleSection() {
 
   // A maior altura entre os dois define a altura dos dois
   const syncedHeight = Math.max(imageCard.height || 0, formCard.height || 0);
-}
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-purple-900">
