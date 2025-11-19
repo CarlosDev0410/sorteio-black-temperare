@@ -1,6 +1,6 @@
 import CountdownTimer from "@/react-app/components/CountdownTimer";
 import RaffleForm from "@/react-app/components/RaffleForm";
-import { useElementHeight } from "@/hooks/useElementHeight";
+import { useElementHeight } from "@/react-app/hooks/useElementHeight";
 
 export default function Home() {
   const raffleDate = new Date("2025-11-28T00:00:00");
