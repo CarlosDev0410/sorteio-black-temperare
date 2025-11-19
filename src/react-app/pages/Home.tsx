@@ -1,5 +1,6 @@
 import CountdownTimer from "@/react-app/components/CountdownTimer";
 import RaffleForm from "@/react-app/components/RaffleForm";
+import { useElementHeight } from "@/hooks/useElementHeight";
 
 export default function Home() {
   const raffleDate = new Date("2025-11-28T00:00:00");
@@ -8,6 +9,13 @@ export default function Home() {
     const formElement = document.getElementById("form-section");
     formElement?.scrollIntoView({ behavior: "smooth" });
   };
+
+export default function RaffleSection() {
+  const imageCard = useElementHeight();
+  const formCard = useElementHeight();
+
+  // A maior altura entre os dois define a altura dos dois
+  const syncedHeight = Math.max(imageCard.height || 0, formCard.height || 0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-purple-900">
@@ -49,28 +57,44 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Image and Form Grid */}
           <div id="form-section" className="grid md:grid-cols-2 gap-8 mb-16">
 
-            {/* Product Image Card */}
-            <div className="relative group aspect-[896/1152]">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
+            {/* ===========================
+                🎨 IMAGE CARD
+            ============================ */}
+            <div
+              ref={imageCard.refCallback}
+              style={{ height: syncedHeight || "auto" }}
+              className="relative group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 transition-opacity group-hover:opacity-75"></div>
 
               <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden w-full h-full flex items-center justify-center p-1 shadow-xl">
                 <img
                   src="produto-sorteio.png"
                   alt="Liquidificador Profissional"
-                  className="w-full h-full object-cover rounded-2xl"
+                  className="w-full h-full object-contain rounded-2xl"
                 />
               </div>
             </div>
 
-            {/* Form Card */}
-            <div className="aspect-[896/1152]">
-              <RaffleForm />
+            {/* ===========================
+                📋 FORM CARD
+            ============================ */}
+            <div
+              ref={formCard.refCallback}
+              style={{ height: syncedHeight || "auto" }}
+              className="relative group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 transition-opacity group-hover:opacity-75"></div>
+
+              <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl p-8 h-full overflow-y-auto shadow-xl">
+                <RaffleForm />
+              </div>
             </div>
 
           </div>
+
 
 
 
