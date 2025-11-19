@@ -1,15 +1,8 @@
 import CountdownTimer from "@/react-app/components/CountdownTimer";
 import RaffleForm from "@/react-app/components/RaffleForm";
-import { useElementHeight } from "@/react-app/hooks/useElementHeight";
 
 export default function Home() {
   const raffleDate = new Date("2025-11-28T00:00:00");
-
-  // HOOKS DE ALTURA (devem estar no topo)
-  const imageCard = useElementHeight();
-  const formCard = useElementHeight();
-
-  const syncedHeight = Math.max(imageCard.height || 0, formCard.height || 0);
 
   const scrollToForm = () => {
     const formElement = document.getElementById("form-section");
@@ -29,7 +22,7 @@ export default function Home() {
         <header className="fixed top-0 left-0 right-0 z-50 py-3 px-4 border-b border-gray-800/30 backdrop-blur-md bg-black/10">
           <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
             <img
-              src="logo.png"
+              src="https://mocha-cdn.com/019a9bfb-ff11-78e7-b10c-5f2fc1b62b29/logo.png"
               alt="Temperare Logo"
               className="h-20 md:h-24 object-cover"
             />
@@ -56,50 +49,31 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Image and Form Grid */}
           <div id="form-section" className="grid md:grid-cols-2 gap-8 mb-16">
-
-            {/* ===========================
-                🎨 IMAGE CARD
-            ============================ */}
-            <div
-              ref={imageCard.refCallback}
-              style={{ height: syncedHeight || "auto" }}
-              className="relative group"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 transition-opacity group-hover:opacity-75"></div>
-
-              <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden w-full h-full flex items-center justify-center p-1 shadow-xl">
+            {/* Product Image Card */}
+            <div className="relative group h-auto md:h-[600px]">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
+            
+              <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden h-full flex items-center justify-center p-0 shadow-xl">
                 <img
                   src="produto-sorteio.png"
                   alt="Liquidificador Profissional"
-                  className="w-full h-full object-contain rounded-2xl"
+                  className="w-full h-full object-cover rounded-2xl"
                 />
               </div>
             </div>
 
-            {/* ===========================
-                📋 FORM CARD
-            ============================ */}
-            <div
-              ref={formCard.refCallback}
-              style={{ height: syncedHeight || "auto" }}
-              className="relative group"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 transition-opacity group-hover:opacity-75"></div>
 
-              <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl p-8 h-full overflow-y-auto shadow-xl">
-                <RaffleForm />
-              </div>
+            {/* Form */}
+            <div className="h-auto md:h-[600px]">
+              <RaffleForm />
             </div>
-
           </div>
-
-
-
 
           {/* Countdown - Centered */}
           <div className="text-center">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-8">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-8 ">
               Faltam apenas
             </h3>
             <CountdownTimer targetDate={raffleDate} />
