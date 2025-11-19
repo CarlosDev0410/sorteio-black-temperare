@@ -28,7 +28,7 @@ export default function Home() {
             />
             <button
               onClick={scrollToForm}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-4 md:px-6 rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-purple-500/50 flex items-center gap-1 md:gap-2 text-sm"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-2 px-3 md:px-6 rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-purple-500/50 flex items-center gap-1 md:gap-2 text-sm"
             >
               <CountdownTimer targetDate={raffleDate} compact={true} />
             </button>
