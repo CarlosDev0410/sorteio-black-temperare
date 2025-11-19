@@ -51,24 +51,27 @@ export default function Home() {
 
           {/* Image and Form Grid */}
           <div id="form-section" className="grid md:grid-cols-2 gap-8 mb-16">
+
             {/* Product Image Card */}
-            <div className="relative group h-auto md:h-[600px]">
+            <div className="relative group aspect-[896/1152]">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
 
-              <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden h-full flex items-center justify-center p-1 shadow-xl">
+              <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden w-full h-full flex items-center justify-center p-1 shadow-xl">
                 <img
                   src="produto-sorteio.png"
                   alt="Liquidificador Profissional"
-                  className="max-w-full max-h-full object-contain rounded-2xl"
+                  className="w-full h-full object-cover rounded-2xl"
                 />
               </div>
             </div>
 
-            {/* Form */}
-            <div className="h-auto md:h-[600px]">
+            {/* Form Card */}
+            <div className="aspect-[896/1152]">
               <RaffleForm />
             </div>
+
           </div>
+
 
 
           {/* Countdown - Centered */}
