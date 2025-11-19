@@ -45,7 +45,7 @@ export default function Home() {
               Concorra a 2 Liquidificadores Blender!
             </h2>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              Participe do nosso sorteio e ganhe 2 <a href="https://www.lojastemperare.com.br/produto/liquidificador-blender-1450w-2-litros-alta-rotacao-com-temporizador-75441" target="blank" className="text-purple-900 hover:text-purple-300 underline">Blender Profissionais de 1450w com 2 litros de capacidade e com temporizador.</a>
+              Participe do nosso sorteio e ganhe 2 <a href="https://www.lojastemperare.com.br/produto/liquidificador-blender-1450w-2-litros-alta-rotacao-com-temporizador-75441" target="blank" className="text-purple-200 hover:text-purple-100 underline">Blender Profissionais de 1450w com 2 litros de capacidade e com temporizador.</a>
             </p>
           </div>
 
