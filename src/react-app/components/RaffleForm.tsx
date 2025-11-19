@@ -57,107 +57,101 @@ export default function RaffleForm() {
 
   if (isSuccess) {
     return (
-      <div className="relative group h-full">
-        <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-all"></div>
-        <div className="relative bg-black/80 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 h-full flex flex-col justify-center text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-4 mx-auto">
-            <Check className="w-8 h-8 text-white" />
-          </div>
-          <h3 className="text-2xl font-bold text-white mb-2">
-            Participação Confirmada!
-          </h3>
-          <p className="text-gray-400">
-            Seus dados foram registrados. Boa sorte no sorteio!
-          </p>
+      <div className="p-8 h-full flex flex-col justify-center text-center min-h-[600px]">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-4 mx-auto">
+          <Check className="w-8 h-8 text-white" />
         </div>
+        <h3 className="text-2xl font-bold text-white mb-2">
+          Participação Confirmada!
+        </h3>
+        <p className="text-gray-400">
+          Seus dados foram registrados. Boa sorte no sorteio!
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="relative group h-full">
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-all"></div>
-      <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl p-8 h-full flex flex-col justify-center">
-        <h3 className="text-2xl font-bold text-white mb-2 text-center">Inscreva-se e Concorra!</h3>
-        <p className="text-gray-400 text-center mb-6">Preencha seus dados para participar.</p>
-        
-        {error && (
-          <div className="text-red-400 text-sm text-center bg-red-900/20 border border-red-500/30 rounded-lg p-3 mb-4">
-            {error}
-          </div>
-        )}
+    <div className="p-8 h-full flex flex-col justify-center">
+      <h3 className="text-2xl font-bold text-white mb-2 text-center">Inscreva-se e Concorra!</h3>
+      <p className="text-gray-400 text-center mb-6">Preencha seus dados para participar.</p>
+      
+      {error && (
+        <div className="text-red-400 text-sm text-center bg-red-900/20 border border-red-500/30 rounded-lg p-3 mb-4">
+          {error}
+        </div>
+      )}
 
-        <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto pr-2 max-h-[450px]">
-          {/* Required Fields */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Nome Completo *</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Seu nome" className="input-field" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Telefone (com DDD) *</label>
-            <input type="tel" name="contact" value={formData.contact} onChange={handleChange} required placeholder="(XX) XXXXX-XXXX" className="input-field" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Área de Atuação *</label>
-            <select name="area_of_expertise" value={formData.area_of_expertise} onChange={handleChange} required className="input-field">
-              <option value="">Selecione sua área</option>
-              <option value="Gastronomia Profissional">Gastronomia Profissional</option>
-              <option value="Chef/Cozinheiro">Chef/Cozinheiro</option>
-              <option value="Nutrição">Nutrição</option>
-              <option value="Confeitaria">Confeitaria</option>
-              <option value="Outros">Outros</option>
-              <option value="Não trabalho no ramo">Não trabalho no ramo</option>
-            </select>
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto pr-2 max-h-[450px]">
+        {/* Required Fields */}
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Nome Completo *</label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Seu nome" className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Telefone (com DDD) *</label>
+          <input type="tel" name="contact" value={formData.contact} onChange={handleChange} required placeholder="(XX) XXXXX-XXXX" className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Área de Atuação *</label>
+          <select name="area_of_expertise" value={formData.area_of_expertise} onChange={handleChange} required className="input-field">
+            <option value="">Selecione sua área</option>
+            <option value="Gastronomia Profissional">Gastronomia Profissional</option>
+            <option value="Chef/Cozinheiro">Chef/Cozinheiro</option>
+            <option value="Nutrição">Nutrição</option>
+            <option value="Confeitaria">Confeitaria</option>
+            <option value="Outros">Outros</option>
+            <option value="Não trabalho no ramo">Não trabalho no ramo</option>
+          </select>
+        </div>
 
-          {/* Optional Fields */}
-          <hr className="border-gray-700 my-4" />
-          <p className="text-center text-gray-400 text-sm -mt-2 mb-2">Campos Opcionais</p>
+        {/* Optional Fields */}
+        <hr className="border-gray-700 my-4" />
+        <p className="text-center text-gray-400 text-sm -mt-2 mb-2">Campos Opcionais</p>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="seu@email.com" className="input-field" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Você já é cliente da Temperare?</label>
-            <select name="is_client" value={formData.is_client} onChange={handleChange} className="input-field">
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
+          <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="seu@email.com" className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Você já é cliente da Temperare?</label>
+          <select name="is_client" value={formData.is_client} onChange={handleChange} className="input-field">
+            <option value="">Selecione</option>
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Como conheceu a Temperare?</label>
+          <select name="how_they_found_us" value={formData.how_they_found_us} onChange={handleChange} className="input-field">
               <option value="">Selecione</option>
-              <option value="Sim">Sim</option>
-              <option value="Não">Não</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Como conheceu a Temperare?</label>
-            <select name="how_they_found_us" value={formData.how_they_found_us} onChange={handleChange} className="input-field">
-                <option value="">Selecione</option>
-                <option value="Instagram">Instagram</option>
-                <option value="Facebook">Facebook</option>
-                <option value="Google">Google</option>
-                <option value="Indicação">Indicação de amigo</option>
-                <option value="Outro">Outro</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Qual produto você mais deseja?</label>
-            <input type="text" name="desired_product" value={formData.desired_product} onChange={handleChange} placeholder="Ex: Liquidificador, Forno" className="input-field" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Deixe sua opinião sobre a Temperare</label>
-            <textarea name="feedback" value={formData.feedback} onChange={handleChange} rows={2} placeholder="Sua mensagem..." className="input-field"></textarea>
-          </div>
+              <option value="Instagram">Instagram</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Google">Google</option>
+              <option value="Indicação">Indicação de amigo</option>
+              <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Qual produto você mais deseja?</label>
+          <input type="text" name="desired_product" value={formData.desired_product} onChange={handleChange} placeholder="Ex: Liquidificador, Forno" className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Deixe sua opinião sobre a Temperare</label>
+          <textarea name="feedback" value={formData.feedback} onChange={handleChange} rows={2} placeholder="Sua mensagem..." className="input-field"></textarea>
+        </div>
 
-          <button type="submit" disabled={isLoading} className="w-full btn-primary mt-4">
-            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "QUERO PARTICIPAR!"}
-          </button>
+        <button type="submit" disabled={isLoading} className="w-full btn-primary mt-4">
+          {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "QUERO PARTICIPAR!"}
+        </button>
 
-          <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg text-center text-yellow-300 text-xs flex items-start gap-2">
-            <AlertTriangle className="w-6 h-6 flex-shrink-0" />
-            <div>
-              <span className="font-bold">ATENÇÃO:</span> A validação do ganhador será feita exclusivamente por telefone. Cadastros com número incorreto, inexistente ou que não atendam a ligação serão desclassificados automaticamente.
-            </div>
+        <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg text-center text-yellow-300 text-xs flex items-start gap-2">
+          <AlertTriangle className="w-6 h-6 flex-shrink-0" />
+          <div>
+            <span className="font-bold">ATENÇÃO:</span> A validação do ganhador será feita exclusivamente por telefone. Cadastros com número incorreto, inexistente ou que não atendam a ligação serão desclassificados automaticamente.
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
       <style>{`
         .btn-primary {
           display: flex;
