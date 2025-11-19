@@ -54,22 +54,22 @@ export default function Home() {
             {/* Product Image Card */}
             <div className="relative group h-auto md:h-[600px]">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-            
-              <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden h-full flex items-center justify-center p-0 shadow-xl">
+
+              <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden h-full flex items-center justify-center p-1 shadow-xl">
                 <img
                   src="produto-sorteio.png"
                   alt="Liquidificador Profissional"
-                  className="w-full h-full object-fit rounded-2xl"
+                  className="max-w-full max-h-full object-contain rounded-2xl"
                 />
               </div>
             </div>
-
 
             {/* Form */}
             <div className="h-auto md:h-[600px]">
               <RaffleForm />
             </div>
           </div>
+
 
           {/* Countdown - Centered */}
           <div className="text-center">
