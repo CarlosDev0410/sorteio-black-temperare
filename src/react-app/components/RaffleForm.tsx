@@ -1,262 +1,162 @@
-import { useState, useEffect } from "react";
-import { Loader2, Check } from "lucide-react";
+import { useState } from "react";
+import { Loader2, Check, AlertTriangle } from "lucide-react";
 import { ZodError } from "zod";
-import { EmailSchema, RaffleEntryDetailsSchema, type RaffleEntryDetails } from "@/shared/types";
+import { RaffleEntrySchema, type RaffleEntry } from "@/shared/types";
 import { supabase } from "@/integrations/supabase/client";
 
-type Step = "email" | "otp" | "details" | "success";
-
 export default function RaffleForm() {
-  const [step, setStep] = useState<Step>("email");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
   
-  const [email, setEmail] = useState("");
-  const [token, setToken] = useState("");
-  const [formData, setFormData] = useState<RaffleEntryDetails>({
+  const [formData, setFormData] = useState<Partial<RaffleEntry>>({
     name: "",
     contact: "",
     area_of_expertise: "",
+    email: "",
+    is_client: "",
+    how_they_found_us: "",
+    desired_product: "",
+    feedback: "",
   });
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        setIsLoading(true);
-        const { data: existingEntry } = await supabase
-          .from("participantes")
-          .select("id")
-          .eq("id", session.user.id)
-          .single();
-        
-        if (existingEntry) {
-          setStep("success");
-        } else {
-          setEmail(session.user.email || "");
-          setStep("details");
-        }
-        setIsLoading(false);
-      }
-    };
-    checkSession();
-  }, []);
-
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    try {
-      EmailSchema.parse({ email });
-    } catch (err) {
-      if (err instanceof ZodError) setError(err.errors[0].message);
-      return;
-    }
-
-    setIsLoading(true);
-    const { error: signInError } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        shouldCreateUser: true,
-      },
-    });
-    setIsLoading(false);
-
-    if (signInError) {
-      setError("Não foi possível enviar o código. Tente novamente.");
-      return;
-    }
-    setStep("otp");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleOtpSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!token || token.length < 6) {
-      setError("Por favor, insira um código válido.");
-      return;
-    }
-
     setIsLoading(true);
-    const { data: { session }, error: verifyError } = await supabase.auth.verifyOtp({
-      email,
-      token,
-      type: "email",
-    });
-    setIsLoading(false);
 
-    if (verifyError || !session) {
-      setError("Código inválido ou expirado. Tente novamente.");
-      return;
-    }
-    
-    // Check if user already participated
-    setIsLoading(true);
-    const { data: existingEntry } = await supabase
-      .from("participantes")
-      .select("id")
-      .eq("id", session.user.id)
-      .single();
-    setIsLoading(false);
-
-    if (existingEntry) {
-      setStep("success");
-    } else {
-      setStep("details");
-    }
-  };
-
-  const handleDetailsSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
     try {
-      RaffleEntryDetailsSchema.parse(formData);
+      RaffleEntrySchema.parse(formData);
     } catch (err) {
       if (err instanceof ZodError) setError(err.errors[0].message);
-      return;
-    }
-
-    setIsLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      setError("Sessão inválida. Por favor, comece novamente.");
-      setStep("email");
       setIsLoading(false);
       return;
     }
 
     const { error: insertError } = await supabase
-      .from("participantes")
-      .insert([{ ...formData, id: user.id }]);
+      .from("raffle_entries")
+      .insert([formData]);
+
     setIsLoading(false);
 
     if (insertError) {
-      setError("Ocorreu um erro ao salvar seus dados. Tente novamente.");
+      if (insertError.code === '23505') { // Unique constraint violation
+        setError("Este número de telefone já foi cadastrado.");
+      } else {
+        setError("Ocorreu um erro ao registrar sua participação. Tente novamente.");
+      }
       return;
     }
-    setStep("success");
+    
+    setIsSuccess(true);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const renderContent = () => {
-    if (isLoading && step !== 'success') {
-      return (
-        <div className="flex flex-col items-center justify-center h-full">
-          <Loader2 className="w-12 h-12 animate-spin text-purple-400" />
-        </div>
-      );
-    }
-
-    switch (step) {
-      case "success":
-        return (
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-4">
-              <Check className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-2xl font-bold text-white mb-2">
-              Inscrição Confirmada!
-            </h3>
-            <p className="text-gray-400">
-              Você já está participando do sorteio. Boa sorte!
-            </p>
+  if (isSuccess) {
+    return (
+      <div className="relative group h-full">
+        <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-all"></div>
+        <div className="relative bg-black/80 backdrop-blur-sm border border-green-500/30 rounded-3xl p-8 h-full flex flex-col justify-center text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-4 mx-auto">
+            <Check className="w-8 h-8 text-white" />
           </div>
-        );
-      
-      case "otp":
-        return (
-          <>
-            <h3 className="text-2xl font-bold text-white mb-2 text-center">Verifique seu E-mail</h3>
-            <p className="text-gray-400 text-center mb-6">
-              Enviamos um código de 6 dígitos para <span className="font-bold text-purple-300">{email}</span>.
-            </p>
-            <form onSubmit={handleOtpSubmit} className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Código de Verificação</label>
-                <input
-                  type="text"
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                  maxLength={6}
-                  placeholder="_ _ _ _ _ _"
-                  className="w-full text-center tracking-[1em] px-4 py-3 bg-gray-900/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-              <button type="submit" disabled={isLoading} className="w-full btn-primary">
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Verificar e Continuar"}
-              </button>
-              <button onClick={() => setStep('email')} type="button" className="w-full text-sm text-purple-400 hover:text-purple-300">
-                Usar outro e-mail
-              </button>
-            </form>
-          </>
-        );
-
-      case "details":
-        return (
-          <>
-            <h3 className="text-2xl font-bold text-white mb-2 text-center">Complete seu Cadastro</h3>
-            <p className="text-gray-400 text-center mb-6">Falta pouco! Preencha seus dados para participar.</p>
-            <form onSubmit={handleDetailsSubmit} className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Nome Completo</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Seu nome" className="input-field" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Contato (com DDD)</label>
-                <input type="tel" name="contact" value={formData.contact} onChange={handleChange} required placeholder="(XX) XXXXX-XXXX" className="input-field" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Área de Atuação</label>
-                <select name="area_of_expertise" value={formData.area_of_expertise} onChange={handleChange} required className="input-field">
-                  <option value="">Selecione sua área</option>
-                  <option value="Gastronomia Profissional">Gastronomia Profissional</option>
-                  <option value="Chef/Cozinheiro">Chef/Cozinheiro</option>
-                  <option value="Nutrição">Nutrição</option>
-                  <option value="Confeitaria">Confeitaria</option>
-                  <option value="Outros">Outros</option>
-                  <option value="Não trabalho no ramo">Não trabalho no ramo</option>
-                </select>
-              </div>
-              <button type="submit" disabled={isLoading} className="w-full btn-primary">
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "QUERO PARTICIPAR!"}
-              </button>
-            </form>
-          </>
-        );
-
-      case "email":
-      default:
-        return (
-          <>
-            <h3 className="text-2xl font-bold text-white mb-2 text-center">Inscreva-se e Concorra!</h3>
-            <p className="text-gray-400 text-center mb-6">Use seu melhor e-mail para participar.</p>
-            <form onSubmit={handleEmailSubmit} className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="seu@email.com" className="input-field" />
-              </div>
-              <button type="submit" disabled={isLoading} className="w-full btn-primary">
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Continuar"}
-              </button>
-            </form>
-          </>
-        );
-    }
-  };
+          <h3 className="text-2xl font-bold text-white mb-2">
+            Participação Confirmada!
+          </h3>
+          <p className="text-gray-400">
+            Seus dados foram registrados. Boa sorte no sorteio!
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative group h-full">
-      <div className={`absolute inset-0 bg-gradient-to-r ${step === 'success' ? 'from-green-600 to-emerald-600' : 'from-purple-600 to-pink-600'} rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-all`}></div>
-      <div className={`relative bg-black/80 backdrop-blur-sm border ${step === 'success' ? 'border-green-500/30' : 'border-purple-500/30'} rounded-3xl p-8 h-full flex flex-col justify-center`}>
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-all"></div>
+      <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-3xl p-8 h-full flex flex-col justify-center">
+        <h3 className="text-2xl font-bold text-white mb-2 text-center">Inscreva-se e Concorra!</h3>
+        <p className="text-gray-400 text-center mb-6">Preencha seus dados para participar.</p>
+        
         {error && (
           <div className="text-red-400 text-sm text-center bg-red-900/20 border border-red-500/30 rounded-lg p-3 mb-4">
             {error}
           </div>
         )}
-        {renderContent()}
+
+        <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto pr-2 max-h-[450px]">
+          {/* Required Fields */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Nome Completo *</label>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Seu nome" className="input-field" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Telefone (com DDD) *</label>
+            <input type="tel" name="contact" value={formData.contact} onChange={handleChange} required placeholder="(XX) XXXXX-XXXX" className="input-field" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Área de Atuação *</label>
+            <select name="area_of_expertise" value={formData.area_of_expertise} onChange={handleChange} required className="input-field">
+              <option value="">Selecione sua área</option>
+              <option value="Gastronomia Profissional">Gastronomia Profissional</option>
+              <option value="Chef/Cozinheiro">Chef/Cozinheiro</option>
+              <option value="Nutrição">Nutrição</option>
+              <option value="Confeitaria">Confeitaria</option>
+              <option value="Outros">Outros</option>
+              <option value="Não trabalho no ramo">Não trabalho no ramo</option>
+            </select>
+          </div>
+
+          {/* Optional Fields */}
+          <hr className="border-gray-700 my-4" />
+          <p className="text-center text-gray-400 text-sm -mt-2 mb-2">Campos Opcionais</p>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="seu@email.com" className="input-field" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Você já é cliente da Temperare?</label>
+            <select name="is_client" value={formData.is_client} onChange={handleChange} className="input-field">
+              <option value="">Selecione</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Como conheceu a Temperare?</label>
+            <select name="how_they_found_us" value={formData.how_they_found_us} onChange={handleChange} className="input-field">
+                <option value="">Selecione</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Google">Google</option>
+                <option value="Indicação">Indicação de amigo</option>
+                <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Qual produto você mais deseja?</label>
+            <input type="text" name="desired_product" value={formData.desired_product} onChange={handleChange} placeholder="Ex: Liquidificador, Forno" className="input-field" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Deixe sua opinião sobre a Temperare</label>
+            <textarea name="feedback" value={formData.feedback} onChange={handleChange} rows={2} placeholder="Sua mensagem..." className="input-field"></textarea>
+          </div>
+
+          <button type="submit" disabled={isLoading} className="w-full btn-primary mt-4">
+            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "QUERO PARTICIPAR!"}
+          </button>
+
+          <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg text-center text-yellow-300 text-xs flex items-start gap-2">
+            <AlertTriangle className="w-6 h-6 flex-shrink-0" />
+            <div>
+              <span className="font-bold">ATENÇÃO:</span> A validação do ganhador será feita exclusivamente por telefone. Cadastros com número incorreto, inexistente ou que não atendam a ligação serão desclassificados automaticamente.
+            </div>
+          </div>
+        </form>
       </div>
       <style>{`
         .btn-primary {
@@ -297,6 +197,21 @@ export default function RaffleForm() {
           outline: none;
           box-shadow: 0 0 0 2px #8B5CF6;
           border-color: transparent;
+        }
+        /* Custom scrollbar for the form */
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 6px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: rgba(0,0,0,0.2);
+          border-radius: 10px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: #4B5563;
+          border-radius: 10px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: #6B7280;
         }
       `}</style>
     </div>

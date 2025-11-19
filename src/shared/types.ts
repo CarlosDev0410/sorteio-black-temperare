@@ -1,13 +1,14 @@
 import z from "zod";
 
-export const EmailSchema = z.object({
-  email: z.string().email("E-mail inválido"),
-});
-
-export const RaffleEntryDetailsSchema = z.object({
+export const RaffleEntrySchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
-  contact: z.string().min(10, "Contato deve ter no mínimo 10 caracteres"),
+  contact: z.string().min(10, "Número de telefone inválido"),
   area_of_expertise: z.string().min(1, "Área de atuação é obrigatória"),
+  email: z.string().email("E-mail inválido").optional().or(z.literal('')),
+  is_client: z.string().optional(),
+  how_they_found_us: z.string().optional(),
+  desired_product: z.string().optional(),
+  feedback: z.string().optional(),
 });
 
-export type RaffleEntryDetails = z.infer<typeof RaffleEntryDetailsSchema>;
+export type RaffleEntry = z.infer<typeof RaffleEntrySchema>;
