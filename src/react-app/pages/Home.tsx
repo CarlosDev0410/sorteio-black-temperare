@@ -8,15 +8,13 @@ export default function Home() {
   const scrollToForm = () => {
     const formElement = document.getElementById("form-section");
     formElement?.scrollIntoView({ behavior: "smooth" });
-  };
 
-export default function RaffleSection() {
   const imageCard = useElementHeight();
   const formCard = useElementHeight();
 
   // A maior altura entre os dois define a altura dos dois
   const syncedHeight = Math.max(imageCard.height || 0, formCard.height || 0);
-};
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-purple-900">
