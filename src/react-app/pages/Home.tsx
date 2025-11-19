@@ -5,15 +5,15 @@ import { useElementHeight } from "@/react-app/hooks/useElementHeight";
 export default function Home() {
   const raffleDate = new Date("2025-11-28T00:00:00");
 
-  const scrollToForm = () => {
-    const formElement = document.getElementById("form-section");
-    formElement?.scrollIntoView({ behavior: "smooth" });
-
+  // HOOKS DE ALTURA (devem estar no topo)
   const imageCard = useElementHeight();
   const formCard = useElementHeight();
 
-  // A maior altura entre os dois define a altura dos dois
   const syncedHeight = Math.max(imageCard.height || 0, formCard.height || 0);
+
+  const scrollToForm = () => {
+    const formElement = document.getElementById("form-section");
+    formElement?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
