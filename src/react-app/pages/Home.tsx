@@ -59,7 +59,7 @@ export default function Home() {
                 <img
                   src="produto-sorteio.png"
                   alt="Liquidificador Profissional"
-                  className="w-full h-full object-content rounded-2xl"
+                  className="w-full h-full object-fit rounded-2xl"
                 />
               </div>
             </div>
