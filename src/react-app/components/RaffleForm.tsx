@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Loader2, Check } from "lucide-react";
-import type { RaffleEntry } from "@/shared/types";
+import { ZodError } from "zod";
+import { RaffleEntrySchema, type RaffleEntry } from "@/shared/types";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function RaffleForm() {
   const [formData, setFormData] = useState<RaffleEntry>({
@@ -13,23 +15,44 @@ export default function RaffleForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setError("");
 
-    // Simula uma chamada de API de 1.5 segundos.
-    // No futuro, aqui entrará a lógica para enviar os dados ao Supabase.
-    setTimeout(() => {
-      setIsSuccess(true);
-      setFormData({
-        name: "",
-        email: "",
-        contact: "",
-        area_of_expertise: "",
-      });
-      setIsSubmitting(false);
-    }, 1500);
+    // Validação com Zod antes de enviar
+    try {
+      RaffleEntrySchema.parse(formData);
+    } catch (err) {
+      if (err instanceof ZodError) {
+        setError(err.errors[0].message);
+      }
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const { error: insertError } = await supabase
+      .from("participantes")
+      .insert([formData]);
+
+    setIsSubmitting(false);
+
+    if (insertError) {
+      if (insertError.code === "23505") { // Código de erro para violação de unicidade
+        setError("Este e-mail já está participando do sorteio.");
+      } else {
+        setError("Ocorreu um erro ao realizar a inscrição. Tente novamente.");
+      }
+      return;
+    }
+
+    setIsSuccess(true);
+    setFormData({
+      name: "",
+      email: "",
+      contact: "",
+      area_of_expertise: "",
+    });
   };
 
   const handleChange = (
