@@ -19,7 +19,7 @@ export default function Home() {
 
       <div className="relative z-10">
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 z-50 py-2 px-3 border-b border-gray-800/30 backdrop-blur-md bg-black/10">
+        <header className="fixed top-0 left-0 right-0 z-50 py-2 px-3 bg-black">
           <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
             <img
               src="logo.png"
@@ -60,7 +60,7 @@ export default function Home() {
                     <img
                       src="produto-sorteio.png"
                       alt="Liquidificador Profissional"
-                      className="absolute inset-0 w-full h-full object-contain"
+                      className="absolute inset-0 w-full h-full object-cover"
                     />
                     {/* Gradient Overlay to blend image with form */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent from-50% to-black"></div>
