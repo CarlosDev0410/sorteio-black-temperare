@@ -62,6 +62,8 @@ export default function Home() {
                       alt="Liquidificador Profissional"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
+                    {/* Gradient Overlay to blend image with form */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent from-50% to-black/80"></div>
                   </div>
                   {/* Form Side */}
                   <div>
