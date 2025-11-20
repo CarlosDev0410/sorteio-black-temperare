@@ -1,8 +1,14 @@
+import { useState } from "react";
 import CountdownTimer from "@/react-app/components/CountdownTimer";
 import RaffleForm from "@/react-app/components/RaffleForm";
+import Modal from "@/react-app/components/Modal";
+import RegulationContent from "@/react-app/components/RegulationContent";
+import PrivacyContent from "@/react-app/components/PrivacyContent";
 import { Zap, Instagram, Facebook, Youtube } from "lucide-react";
 
 export default function Home() {
+  const [isRegulationOpen, setIsRegulationOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const raffleDate = new Date("2025-11-28T00:00:00");
 
   const scrollToForm = () => {
@@ -12,6 +18,23 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-950">
+      {/* Modais */}
+      <Modal
+        isOpen={isRegulationOpen}
+        onClose={() => setIsRegulationOpen(false)}
+        title="Regulamento Completo"
+      >
+        <RegulationContent />
+      </Modal>
+
+      <Modal
+        isOpen={isPrivacyOpen}
+        onClose={() => setIsPrivacyOpen(false)}
+        title="Política de Privacidade"
+      >
+        <PrivacyContent />
+      </Modal>
+
       {/* Background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl"></div>
@@ -30,7 +53,7 @@ export default function Home() {
             onClick={scrollToForm}
             className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold px-4 py-3 md:px-6 rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-red-500/50 flex items-center justify-center text-sm md:text-base group relative overflow-hidden"
           >
-            <span className="relative z-10">Participe Já</span>
+            <span className="relative z-10">Participe Agora</span>
             <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-300 opacity-0 group-hover:opacity-20 transition-opacity blur-xl"></div>
           </button>
         </div>
@@ -101,7 +124,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
         </div>
 
         {/* Footer Expandido */}
@@ -113,7 +135,7 @@ export default function Home() {
                 <h4 className="text-white font-bold mb-3">Sobre o Sorteio</h4>
                 <p className="text-gray-400 text-sm leading-relaxed">
                   Sorteio válido até 28/11/2025<br />
-                  2 ganhadores serão sorteados<br />
+                  1 ganhador será sortado<br />
                   Validação exclusiva por telefone
                 </p>
               </div>
@@ -121,12 +143,18 @@ export default function Home() {
               {/* Coluna 2: Links */}
               <div className="text-center">
                 <h4 className="text-white font-bold mb-3">Informações</h4>
-                <a href="#" className="block text-red-400 hover:text-red-300 text-sm mb-2 transition-colors">
+                <button
+                  onClick={() => setIsRegulationOpen(true)}
+                  className="block w-full text-red-400 hover:text-red-300 text-sm mb-2 transition-colors hover:underline"
+                >
                   Regulamento Completo
-                </a>
-                <a href="#" className="block text-red-400 hover:text-red-300 text-sm transition-colors">
+                </button>
+                <button
+                  onClick={() => setIsPrivacyOpen(true)}
+                  className="block w-full text-red-400 hover:text-red-300 text-sm transition-colors hover:underline"
+                >
                   Política de Privacidade
-                </a>
+                </button>
               </div>
 
               {/* Coluna 3: Social */}
