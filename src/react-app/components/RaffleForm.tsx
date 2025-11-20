@@ -72,7 +72,7 @@ export default function RaffleForm() {
   }
 
   return (
-    <div className="p-8 h-full flex flex-col justify-center">
+    <div className="p-6 h-full flex flex-col justify-center">
       <h3 className="text-2xl font-bold text-white mb-2 text-center">Inscreva-se e Concorra!</h3>
       <p className="text-gray-400 text-center mb-6">Preencha seus dados para participar.</p>
       
