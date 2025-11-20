@@ -4,6 +4,22 @@ import { ZodError } from "zod";
 import { RaffleEntrySchema, type RaffleEntry } from "@/shared/types";
 import { supabase } from "@/integrations/supabase/client";
 
+const formatPhoneNumber = (value: string): string => {
+  if (!value) return "";
+  const digits = value.replace(/\D/g, '').substring(0, 11);
+  let formatted = '';
+  if (digits.length > 0) {
+    formatted = '(' + digits.substring(0, 2);
+  }
+  if (digits.length >= 3) {
+    formatted += ') ' + digits.substring(2, 7);
+  }
+  if (digits.length >= 8) {
+    formatted += '-' + digits.substring(7, 11);
+  }
+  return formatted;
+};
+
 export default function RaffleForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,7 +37,12 @@ export default function RaffleForm() {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "contact") {
+      setFormData({ ...formData, contact: formatPhoneNumber(value) });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,14 +86,14 @@ export default function RaffleForm() {
           Participação Confirmada!
         </h3>
         <p className="text-gray-400">
-          Seus dados foram registrados. Fique de olho em nossas Redes Sociais. Boa sorte no sorteio!
+          Seus dados foram registrados. Boa sorte no sorteio!
         </p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 h-full flex flex-col justify-center">
+    <div className="p-8 h-full flex flex-col justify-center">
       <h3 className="text-2xl font-bold text-white mb-2 text-center">Inscreva-se e Concorra!</h3>
       <p className="text-gray-400 text-center mb-6">Preencha seus dados para participar.</p>
       
@@ -133,7 +154,7 @@ export default function RaffleForm() {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Qual produto você mais deseja em nossa loja?</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Qual produto você mais deseja?</label>
           <input type="text" name="desired_product" value={formData.desired_product} onChange={handleChange} placeholder="Ex: Liquidificador, Forno" className="input-field" />
         </div>
         <div>
