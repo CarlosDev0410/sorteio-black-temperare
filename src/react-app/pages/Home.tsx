@@ -55,6 +55,10 @@ export default function Home() {
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
               <div className="relative bg-black border border-purple-500/30 rounded-3xl shadow-xl overflow-hidden">
                 <div className="grid md:grid-cols-2">
+                  {/* Form Side */}
+                  <div>
+                    <RaffleForm />
+                  </div>
                   {/* Image Side */}
                   <div className="hidden md:block relative">
                     <img
@@ -63,11 +67,7 @@ export default function Home() {
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                     {/* Gradient Overlay to blend image with form */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent from-50% to-black"></div>
-                  </div>
-                  {/* Form Side */}
-                  <div>
-                    <RaffleForm />
+                    <div className="absolute inset-0 bg-gradient-to-l from-transparent from-50% to-black"></div>
                   </div>
                 </div>
               </div>
