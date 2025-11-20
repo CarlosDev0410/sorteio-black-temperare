@@ -60,7 +60,7 @@ export default function Home() {
                     <img
                       src="produto-sorteio.png"
                       alt="Liquidificador Profissional"
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-contain"
                     />
                     {/* Gradient Overlay to blend image with form */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent from-50% to-black"></div>
