@@ -65,7 +65,7 @@ export default function RaffleForm() {
           Participação Confirmada!
         </h3>
         <p className="text-gray-400">
-          Seus dados foram registrados. Boa sorte no sorteio!
+          Seus dados foram registrados. Fique de olho em nossas Redes Sociais. Boa sorte no sorteio!
         </p>
       </div>
     );
