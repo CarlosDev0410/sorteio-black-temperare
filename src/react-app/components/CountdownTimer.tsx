@@ -36,9 +36,9 @@ export default function CountdownTimer({ targetDate, compact = false }: Countdow
           key={index}
           className="relative group"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-          <div className="relative bg-black/80 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6 md:p-8 min-w-[110px] md:min-w-[140px] text-center">
-            <div className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-700 to-slate-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
+          <div className={`relative bg-black/80 backdrop-blur-sm border border-slate-600/30 rounded-2xl p-6 md:p-8 min-w-[110px] md:min-w-[140px] text-center ${unit.label === 'Segundos' ? 'animate-pulse-subtle' : ''}`}>
+            <div className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-slate-300 to-slate-400 bg-clip-text text-transparent mb-2">
               {String(unit.value).padStart(2, "0")}
             </div>
             <div className="text-sm md:text-base text-gray-400 uppercase tracking-wider">

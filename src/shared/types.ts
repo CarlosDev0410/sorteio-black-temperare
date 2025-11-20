@@ -9,6 +9,7 @@ export const RaffleEntrySchema = z.object({
   how_they_found_us: z.string().optional(),
   desired_product: z.string().optional(),
   feedback: z.string().optional(),
+  raffle_number: z.number().optional(),
 });
 
 export type RaffleEntry = z.infer<typeof RaffleEntrySchema>;
