@@ -26,6 +26,8 @@ export default function RaffleForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [raffleNumber, setRaffleNumber] = useState<number | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
+  const [showOtherInput, setShowOtherInput] = useState(false);
+  const [showOtherAreaInput, setShowOtherAreaInput] = useState(false);
   const totalSteps = 2;
 
   const [formData, setFormData] = useState<Partial<RaffleEntry>>({
@@ -35,7 +37,6 @@ export default function RaffleForm() {
     email: "",
     is_client: "",
     how_they_found_us: "",
-    desired_product: "",
     feedback: "",
   });
 
@@ -45,6 +46,28 @@ export default function RaffleForm() {
       setFormData({ ...formData, contact: formatPhoneNumber(value) });
     } else {
       setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleSourceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value === "Outro") {
+      setShowOtherInput(true);
+      setFormData({ ...formData, how_they_found_us: "" });
+    } else {
+      setShowOtherInput(false);
+      setFormData({ ...formData, how_they_found_us: value });
+    }
+  };
+
+  const handleAreaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value === "Outros") {
+      setShowOtherAreaInput(true);
+      setFormData({ ...formData, area_of_expertise: "" });
+    } else {
+      setShowOtherAreaInput(false);
+      setFormData({ ...formData, area_of_expertise: value });
     }
   };
 
@@ -154,8 +177,8 @@ export default function RaffleForm() {
           {[1, 2].map((step) => (
             <div key={step} className="flex items-center flex-1">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${currentStep >= step
-                  ? 'bg-gradient-to-r from-red-600 to-red-500 text-white'
-                  : 'bg-gray-700 text-gray-400'
+                ? 'bg-gradient-to-r from-red-600 to-red-500 text-white'
+                : 'bg-gray-700 text-gray-400'
                 }`}>
                 {currentStep > step ? <Check className="w-4 h-4" /> : step}
               </div>
@@ -246,9 +269,9 @@ export default function RaffleForm() {
               <label className="block text-sm font-medium text-gray-300 mb-2">Área de Atuação *</label>
               <select
                 name="area_of_expertise"
-                value={formData.area_of_expertise}
-                onChange={handleChange}
-                className="input-field"
+                value={showOtherAreaInput ? "Outros" : formData.area_of_expertise}
+                onChange={handleAreaChange}
+                className="input-field mb-2"
               >
                 <option value="">Selecione sua área</option>
                 <option value="Gastronomia Profissional">Gastronomia Profissional</option>
@@ -258,6 +281,18 @@ export default function RaffleForm() {
                 <option value="Outros">Outros</option>
                 <option value="Não trabalho no ramo">Não trabalho no ramo</option>
               </select>
+
+              {showOtherAreaInput && (
+                <input
+                  type="text"
+                  name="area_of_expertise"
+                  value={formData.area_of_expertise}
+                  onChange={handleChange}
+                  placeholder="Digite sua área de atuação..."
+                  className="input-field animate-fade-in"
+                  autoFocus
+                />
+              )}
             </div>
 
             <div>
@@ -278,9 +313,9 @@ export default function RaffleForm() {
               <label className="block text-sm font-medium text-gray-300 mb-2">Como conheceu a Temperare?</label>
               <select
                 name="how_they_found_us"
-                value={formData.how_they_found_us}
-                onChange={handleChange}
-                className="input-field"
+                value={showOtherInput ? "Outro" : formData.how_they_found_us}
+                onChange={handleSourceChange}
+                className="input-field mb-2"
               >
                 <option value="">Selecione</option>
                 <option value="Instagram">Instagram</option>
@@ -289,18 +324,18 @@ export default function RaffleForm() {
                 <option value="Indicação">Indicação de amigo</option>
                 <option value="Outro">Outro</option>
               </select>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Qual produto você mais deseja?</label>
-              <input
-                type="text"
-                name="desired_product"
-                value={formData.desired_product}
-                onChange={handleChange}
-                placeholder="Ex: Liquidificador, Forno"
-                className="input-field"
-              />
+              {showOtherInput && (
+                <input
+                  type="text"
+                  name="how_they_found_us"
+                  value={formData.how_they_found_us}
+                  onChange={handleChange}
+                  placeholder="Digite como nos conheceu..."
+                  className="input-field animate-fade-in"
+                  autoFocus
+                />
+              )}
             </div>
 
             <div>

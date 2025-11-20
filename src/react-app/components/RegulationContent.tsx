@@ -14,7 +14,7 @@ export default function RegulationContent() {
                     Poderão participar do sorteio pessoas físicas, maiores de 18 anos, residentes e domiciliadas no Brasil, que preencherem corretamente o formulário de inscrição na página oficial da campanha.
                 </p>
                 <ul className="list-disc list-inside mt-2 ml-2 space-y-1 text-sm text-gray-400">
-                    <li>É permitida apenas uma inscrição por CPF/Telefone.</li>
+                    <li>É permitida apenas uma inscrição por telefone.</li>
                     <li>Funcionários e colaboradores da Temperare não podem participar.</li>
                     <li>Inscrições com dados incompletos ou falsos serão desclassificadas.</li>
                 </ul>
@@ -23,17 +23,17 @@ export default function RegulationContent() {
             <section>
                 <h4 className="text-red-400 font-bold mb-2">3. DO PRÊMIO</h4>
                 <p>
-                    Serão sorteados <strong>01 (um) Liquidificador Blender Profissional</strong> de 1450w, com copo de 2 litros e temporizador digital.
+                    Serão sorteados <strong>02 (Dois) Liquidificadores Blender Profissional</strong> de 1450w, com copo de 2 litros e temporizador digital.
                 </p>
                 <p className="mt-2 text-sm text-gray-400">
-                    *O prêmio é pessoal e intransferível, não podendo ser trocado por dinheiro ou outro produto. A cor do produto dependerá da disponibilidade em estoque.
+                    *O prêmio é pessoal e intransferível, não podendo ser trocado por dinheiro ou outro produto. A cor do produto é única.
                 </p>
             </section>
 
             <section>
                 <h4 className="text-red-400 font-bold mb-2">4. DO SORTEIO E RESULTADO</h4>
                 <p>
-                    O sorteio será realizado no dia <strong>28 de Novembro de 2025</strong>, através de plataforma digital de sorteios aleatórios. O resultado será divulgado nas redes sociais oficiais da Temperare (@lojastemperare) e o ganhador será contatado via telefone e/ou e-mail cadastrados.
+                    As inscrições serão encerradas no dia <strong>28 de Novembro, às 13:00h (horário de Brasília)</strong>. O sorteio será realizado com os dados coletados até este horário, com divulgação do resultado prevista para as <strong>14:00h</strong>, utilizando uma plataforma digital de sorteios aleatórios. O ganhador será anunciado nas redes sociais oficiais da Temperare (@lojastemperare) e contatado via telefone e/ou e-mail cadastrados.
                 </p>
             </section>
 

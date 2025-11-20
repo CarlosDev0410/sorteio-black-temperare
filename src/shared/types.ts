@@ -7,7 +7,6 @@ export const RaffleEntrySchema = z.object({
   email: z.string().email("E-mail inválido").optional().or(z.literal('')),
   is_client: z.string().optional(),
   how_they_found_us: z.string().optional(),
-  desired_product: z.string().optional(),
   feedback: z.string().optional(),
   raffle_number: z.number().optional(),
 });

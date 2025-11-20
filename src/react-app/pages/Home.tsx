@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CountdownTimer from "@/react-app/components/CountdownTimer";
 import RaffleForm from "@/react-app/components/RaffleForm";
 import Modal from "@/react-app/components/Modal";
 import RegulationContent from "@/react-app/components/RegulationContent";
 import PrivacyContent from "@/react-app/components/PrivacyContent";
+import RegistrationClosed from "@/react-app/components/RegistrationClosed";
+import { useCountdown } from "@/react-app/hooks/useCountdown";
 import { Zap, Instagram, Facebook, Youtube } from "lucide-react";
 
 export default function Home() {
   const [isRegulationOpen, setIsRegulationOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
-  const raffleDate = new Date("2025-11-28T00:00:00");
+  const raffleDate = new Date("2025-11-28T13:00:00");
+
+  // Hook para verificar o tempo restante
+  const { days, hours, minutes, seconds } = useCountdown(raffleDate);
+  const [isExpired, setIsExpired] = useState(false);
+
+  useEffect(() => {
+    if (days + hours + minutes + seconds <= 0) {
+      setIsExpired(true);
+    } else {
+      setIsExpired(false);
+    }
+  }, [days, hours, minutes, seconds]);
 
   const scrollToForm = () => {
     const formElement = document.getElementById("form-section");
@@ -49,13 +63,15 @@ export default function Home() {
             alt="Temperare Logo"
             className="h-16 md:h-20 object-cover"
           />
-          <button
-            onClick={scrollToForm}
-            className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold px-4 py-3 md:px-6 rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-red-500/50 flex items-center justify-center text-sm md:text-base group relative overflow-hidden"
-          >
-            <span className="relative z-10">Participe Agora</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-300 opacity-0 group-hover:opacity-20 transition-opacity blur-xl"></div>
-          </button>
+          {!isExpired && (
+            <button
+              onClick={scrollToForm}
+              className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold px-4 py-3 md:px-6 rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-red-500/50 flex items-center justify-center text-sm md:text-base group relative overflow-hidden"
+            >
+              <span className="relative z-10">Participe Agora</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-300 opacity-0 group-hover:opacity-20 transition-opacity blur-xl"></div>
+            </button>
+          )}
         </div>
       </header>
 
@@ -87,42 +103,65 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Countdown - Centered */}
-          <div className="text-center mb-12">
-            <h3 className="text-2xl md:text-4xl font-bold text-white mb-6">
-              Faltam apenas
-            </h3>
+          {/* Lógica de Exibição: Countdown + Form OU Mensagem de Encerrado */}
+          {isExpired ? (
+            <RegistrationClosed />
+          ) : (
+            <>
+              {/* Countdown - Centered */}
+              <div className="text-center mb-12">
+                <h3 className="text-2xl md:text-4xl font-bold text-white mb-6">
+                  Faltam apenas
+                </h3>
 
-            <div className="scale-90 md:scale-100">
-              <CountdownTimer targetDate={raffleDate} />
-            </div>
-          </div>
+                <div className="scale-90 md:scale-100">
+                  <CountdownTimer targetDate={raffleDate} />
+                </div>
+              </div>
 
-          {/* Unified Image and Form Card */}
-          <div id="form-section" className="mb-16">
-            <div className="relative group max-w-5xl mx-auto">
-              <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-red-500 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
-              <div className="relative bg-black border border-red-500/30 rounded-3xl shadow-xl overflow-hidden">
-                <div className="grid md:grid-cols-2">
-                  {/* Form Side */}
-                  <div>
-                    <RaffleForm />
-                  </div>
-                  {/* Image Side */}
-                  <div className="hidden md:block relative">
-                    <img
-                      src="produto-sorteio.png"
-                      alt="Liquidificador Profissional"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                    {/* Divisor com Borda Neon VERMELHA */}
-                    <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-red-500 to-transparent shadow-[0_0_20px_rgba(239,68,68,0.8)]"></div>
-                    {/* Gradient Overlay MUITO mais suave - só escurece na borda esquerda */}
-                    <div className="absolute inset-0 bg-gradient-to-l from-transparent from-80% via-black/10 to-black/70"></div>
+              {/* Unified Image and Form Card */}
+              <div id="form-section" className="mb-16">
+                <div className="relative group max-w-5xl mx-auto">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-red-500 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
+                  <div className="relative bg-black border border-red-500/30 rounded-3xl shadow-xl overflow-hidden">
+                    <div className="grid md:grid-cols-2">
+                      {/* Form Side */}
+                      <div>
+                        <RaffleForm />
+                      </div>
+                      {/* Image Side */}
+                      <div className="hidden md:block relative">
+                        <img
+                          src="produto-sorteio.png"
+                          alt="Liquidificador Profissional"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        {/* Divisor com Borda Neon VERMELHA */}
+                        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-red-500 to-transparent shadow-[0_0_20px_rgba(239,68,68,0.8)]"></div>
+                        {/* Gradient Overlay MUITO mais suave - só escurece na borda esquerda */}
+                        <div className="absolute inset-0 bg-gradient-to-l from-transparent from-80% via-black/10 to-black/70"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </>
+          )}
+
+          {/* Botões de Informação - Mais Visíveis */}
+          <div className="flex flex-col md:flex-row justify-center gap-4 max-w-2xl mx-auto mb-12">
+            <button
+              onClick={() => setIsRegulationOpen(true)}
+              className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-red-500/30 text-gray-300 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group"
+            >
+              <span className="font-medium">Ler Regulamento Completo</span>
+            </button>
+            <button
+              onClick={() => setIsPrivacyOpen(true)}
+              className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-red-500/30 text-gray-300 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group"
+            >
+              <span className="font-medium">Política de Privacidade</span>
+            </button>
           </div>
         </div>
 
@@ -140,22 +179,8 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Coluna 2: Links */}
-              <div className="text-center">
-                <h4 className="text-white font-bold mb-3">Informações</h4>
-                <button
-                  onClick={() => setIsRegulationOpen(true)}
-                  className="block w-full text-red-400 hover:text-red-300 text-sm mb-2 transition-colors hover:underline"
-                >
-                  Regulamento Completo
-                </button>
-                <button
-                  onClick={() => setIsPrivacyOpen(true)}
-                  className="block w-full text-red-400 hover:text-red-300 text-sm transition-colors hover:underline"
-                >
-                  Política de Privacidade
-                </button>
-              </div>
+              {/* Coluna 2: Links - REMOVIDO */}
+              <div className="hidden md:block"></div>
 
               {/* Coluna 3: Social */}
               <div className="text-center md:text-right">
