@@ -97,6 +97,8 @@ export default function RaffleForm() {
       <h3 className="text-2xl font-bold text-white mb-2 text-center">Inscreva-se e Concorra!</h3>
       <p className="text-gray-300 text-center mb-6">Preencha seus dados para participar.</p>
       
+      <p className="text-xs text-gray-400 text-center -mt-4 mb-4">Campos marcados com * são obrigatórios.</p>
+
       {error && (
         <div className="text-red-400 text-sm text-center bg-red-900/20 border border-red-500/30 rounded-lg p-3 mb-4">
           {error}
