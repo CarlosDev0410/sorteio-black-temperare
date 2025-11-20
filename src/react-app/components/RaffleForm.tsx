@@ -85,7 +85,7 @@ export default function RaffleForm() {
         <h3 className="text-2xl font-bold text-white mb-2">
           Participação Confirmada!
         </h3>
-        <p className="text-gray-400">
+        <p className="text-gray-300">
           Seus dados foram registrados. Boa sorte no sorteio!
         </p>
       </div>
@@ -95,7 +95,7 @@ export default function RaffleForm() {
   return (
     <div className="p-8 h-full flex flex-col justify-center">
       <h3 className="text-2xl font-bold text-white mb-2 text-center">Inscreva-se e Concorra!</h3>
-      <p className="text-gray-400 text-center mb-6">Preencha seus dados para participar.</p>
+      <p className="text-gray-300 text-center mb-6">Preencha seus dados para participar.</p>
       
       {error && (
         <div className="text-red-400 text-sm text-center bg-red-900/20 border border-red-500/30 rounded-lg p-3 mb-4">
@@ -128,7 +128,7 @@ export default function RaffleForm() {
 
         {/* Optional Fields */}
         <hr className="border-gray-700 my-4" />
-        <p className="text-center text-gray-400 text-sm -mt-2 mb-2">Campos Opcionais</p>
+        <p className="text-center text-gray-300 text-sm -mt-2 mb-2">Campos Opcionais</p>
 
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
@@ -201,11 +201,11 @@ export default function RaffleForm() {
         .input-field {
           width: 100%;
           padding: 0.75rem 1rem;
-          background-color: rgba(17, 24, 39, 0.5);
+          background-color: #111827; /* bg-gray-900 */
           border: 1px solid #4B5563;
           border-radius: 0.75rem;
           color: white;
-          placeholder-color: #6B7280;
+          placeholder-color: #9CA3AF; /* placeholder-gray-400 */
           transition: all 0.3s;
         }
         .input-field:focus {
