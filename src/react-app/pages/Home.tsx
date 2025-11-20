@@ -58,11 +58,13 @@ export default function Home() {
       {/* Header - Now Sticky */}
       <header className="sticky top-0 left-0 right-0 z-50 py-3 px-4 backdrop-blur-lg bg-black/60 border-b border-red-500/20 animate-fade-in-down">
         <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
-          <img
-            src="logo.png"
-            alt="Temperare Logo"
-            className="h-16 md:h-20 object-cover"
-          />
+          <a href="https://www.lojastemperare.com.br/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+            <img
+              src="logo.png"
+              alt="Temperare Logo"
+              className="h-16 md:h-20 object-cover"
+            />
+          </a>
           {!isExpired && (
             <button
               onClick={scrollToForm}

@@ -28,7 +28,7 @@ export default function RaffleForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showOtherInput, setShowOtherInput] = useState(false);
   const [showOtherAreaInput, setShowOtherAreaInput] = useState(false);
-  const totalSteps = 2;
+  const totalSteps = 3;
 
   const [formData, setFormData] = useState<Partial<RaffleEntry>>({
     name: "",
@@ -37,11 +37,21 @@ export default function RaffleForm() {
     email: "",
     is_client: "",
     how_they_found_us: "",
+    current_product_search: "",
+    business_intent: "",
     feedback: "",
+    accepts_marketing: false,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData({ ...formData, [name]: checked });
+      return;
+    }
+
     if (name === "contact") {
       setFormData({ ...formData, contact: formatPhoneNumber(value) });
     } else {
@@ -74,9 +84,47 @@ export default function RaffleForm() {
   const validateStep = (step: number): boolean => {
     setError("");
 
+    // Etapa 1: Perfil
     if (step === 1) {
+      if (!formData.area_of_expertise || formData.area_of_expertise.trim() === "") {
+        setError("Por favor, selecione sua área de atuação.");
+        return false;
+      }
+      if (!formData.is_client || formData.is_client.trim() === "") {
+        setError("Por favor, informe se você já é cliente.");
+        return false;
+      }
+      if (!formData.how_they_found_us || formData.how_they_found_us.trim() === "") {
+        setError("Por favor, informe como nos conheceu.");
+        return false;
+      }
+    }
+
+    // Etapa 2: Pesquisa
+    if (step === 2) {
+      if (!formData.current_product_search || formData.current_product_search.trim() === "") {
+        setError("Por favor, informe qual produto você busca.");
+        return false;
+      }
+      if (!formData.business_intent || formData.business_intent.trim() === "") {
+        setError("Por favor, informe se pretende expandir seu negócio.");
+        return false;
+      }
+    }
+
+    // Etapa 3: Cadastro
+    if (step === 3) {
       if (!formData.name || formData.name.trim() === "") {
         setError("Por favor, preencha seu nome completo.");
+        return false;
+      }
+      if (!formData.email || formData.email.trim() === "") {
+        setError("Por favor, preencha seu e-mail.");
+        return false;
+      }
+      // Validação básica de e-mail
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email || "")) {
+        setError("Por favor, preencha um e-mail válido.");
         return false;
       }
       if (!formData.contact || formData.contact.length < 14) {
@@ -174,7 +222,7 @@ export default function RaffleForm() {
       {/* Progress Indicator - Centralizado */}
       <div className="mb-6 flex flex-col items-center w-full">
         <div className="flex items-center justify-center mb-2 w-full max-w-xs mx-auto">
-          {[1, 2].map((step) => (
+          {[1, 2, 3].map((step) => (
             <div key={step} className="flex items-center flex-1">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all ${currentStep >= step
                 ? 'bg-gradient-to-r from-red-600 to-red-500 text-white'
@@ -201,69 +249,11 @@ export default function RaffleForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* ETAPA 1: Dados Essenciais */}
+
+        {/* ETAPA 1: Perfil */}
         {currentStep === 1 && (
           <div className="space-y-4 animate-fade-in">
-            <p className="text-xs text-gray-400 text-center mb-4">Dados essenciais *</p>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Nome Completo *</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Seu nome completo"
-                className="input-field"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="seu@email.com"
-                className="input-field"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone (com DDD) *</label>
-              <input
-                type="tel"
-                name="contact"
-                value={formData.contact}
-                onChange={handleChange}
-                placeholder="(XX) XXXXX-XXXX"
-                className="input-field"
-              />
-            </div>
-
-            <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg text-yellow-300 text-xs flex items-start gap-2">
-              <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-              <div>
-                <span className="font-bold">ATENÇÃO:</span> A validação do ganhador será feita exclusivamente por telefone. Cadastros com número incorreto, inexistente ou que não atendam a ligação serão desclassificados automaticamente.
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={nextStep}
-              className="w-full btn-primary group mt-6"
-            >
-              <span>Próximo</span>
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        )}
-
-        {/* ETAPA 2: Perguntas de Marketing */}
-        {currentStep === 2 && (
-          <div className="space-y-4 animate-fade-in">
-            <p className="text-xs text-gray-400 text-center mb-4">Perguntas adicionais (opcional)</p>
+            <p className="text-xs text-gray-400 text-center mb-4">Perfil Profissional</p>
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Área de Atuação *</label>
@@ -338,6 +328,48 @@ export default function RaffleForm() {
               )}
             </div>
 
+            <button
+              type="button"
+              onClick={nextStep}
+              className="w-full btn-primary group mt-6"
+            >
+              <span>Próximo</span>
+              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        )}
+
+        {/* ETAPA 2: Pesquisa */}
+        {currentStep === 2 && (
+          <div className="space-y-4 animate-fade-in">
+            <p className="text-xs text-gray-400 text-center mb-4">Pesquisa de Interesse</p>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Qual produto você mais busca hoje?</label>
+              <input
+                type="text"
+                name="current_product_search"
+                value={formData.current_product_search}
+                onChange={handleChange}
+                placeholder="Ex: Forno, Batedeira..."
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Pretende abrir/expandir um negócio nos próximos 6 meses?</label>
+              <select
+                name="business_intent"
+                value={formData.business_intent}
+                onChange={handleChange}
+                className="input-field"
+              >
+                <option value="">Selecione</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+              </select>
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Deixe sua opinião sobre a Temperare</label>
               <textarea
@@ -348,6 +380,89 @@ export default function RaffleForm() {
                 placeholder="Sua mensagem..."
                 className="input-field resize-none"
               ></textarea>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                type="button"
+                onClick={prevStep}
+                className="flex-1 btn-secondary group"
+              >
+                <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                <span>Voltar</span>
+              </button>
+              <button
+                type="button"
+                onClick={nextStep}
+                className="flex-1 btn-primary group"
+              >
+                <span>Próximo</span>
+                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ETAPA 3: Cadastro */}
+        {currentStep === 3 && (
+          <div className="space-y-4 animate-fade-in">
+            <p className="text-xs text-gray-400 text-center mb-4">Seus Dados de Contato</p>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Nome Completo *</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Seu nome completo"
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">E-mail</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="seu@email.com"
+                className="input-field"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone (com DDD) *</label>
+              <input
+                type="tel"
+                name="contact"
+                value={formData.contact}
+                onChange={handleChange}
+                placeholder="(XX) XXXXX-XXXX"
+                className="input-field"
+              />
+            </div>
+
+            <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg text-yellow-300 text-xs flex items-start gap-2">
+              <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+              <div>
+                <span className="font-bold">ATENÇÃO:</span> A validação do ganhador será feita exclusivamente por telefone. Cadastros com número incorreto, inexistente ou que não atendam a ligação serão desclassificados automaticamente.
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700">
+              <input
+                type="checkbox"
+                name="accepts_marketing"
+                id="accepts_marketing"
+                checked={formData.accepts_marketing}
+                onChange={handleChange}
+                className="w-5 h-5 rounded border-gray-600 text-red-600 focus:ring-red-500 bg-gray-700"
+              />
+              <label htmlFor="accepts_marketing" className="text-sm text-gray-300 cursor-pointer select-none">
+                Aceito receber novidades e ofertas da Temperare
+              </label>
             </div>
 
             <div className="flex gap-3 mt-6">
