@@ -17,24 +17,24 @@ export default function Home() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative z-10">
-        {/* Header */}
-        <header className="fixed top-0 left-0 right-0 z-50 py-2 px-3 bg-transparent">
-          <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
-            <img
-              src="logo.png"
-              alt="Temperare Logo"
-              className="h-16 md:h-24 object-cover"
-            />
-            <button
-              onClick={scrollToForm}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold p-3 md:px-6 rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-purple-500/50 flex items-center justify-center text-sm"
-            >
-              Participe Já
-            </button>
-          </div>
-        </header>
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 py-2 px-3 bg-transparent">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
+          <img
+            src="logo.png"
+            alt="Temperare Logo"
+            className="h-16 md:h-24 object-cover"
+          />
+          <button
+            onClick={scrollToForm}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold p-3 md:px-6 rounded-xl transition-all transform hover:scale-105 shadow-lg shadow-purple-500/50 flex items-center justify-center text-sm"
+          >
+            Participe Já
+          </button>
+        </div>
+      </header>
 
+      <div className="relative z-10">
         {/* Description Section - Centered */}
         <div className="max-w-7xl mx-auto px-4 py-12 md:py-16 pt-32 md:pt-40">
           <div className="text-center mb-12">
