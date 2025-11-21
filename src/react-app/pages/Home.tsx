@@ -131,7 +131,7 @@ export default function Home() {
                       {/* Image Side */}
                       <div className="hidden md:block relative">
                         <img
-                          src="produto-sorteio.png"
+                          src="produto-sorteio.jpg"
                           alt="Liquidificador Profissional"
                           className="absolute inset-0 w-full h-full object-cover"
                         />
