@@ -23,7 +23,10 @@ export default function RegulationContent() {
             <section>
                 <h4 className="text-red-400 font-bold mb-2">3. DO PRÊMIO</h4>
                 <p>
-                    Serão sorteados <strong>02 (Dois) Liquidificadores Blender Profissional</strong> de 1450w, com copo de 2 litros e temporizador digital.
+                    Serão sorteados <strong>02 (Dois) Liquidificadores Blender Profissional</strong> de 1450w, com copo de 2 litros e temporizador da marca Temperare.
+                </p>
+                <p className="mt-2 text-sm text-gray-400">
+                    *A promoção contemplará 2 (dois) ganhadores distintos. Cada ganhador terá direito a 1 (um) Liquidificador Blender de 1450w. Não será permitido o acúmulo de prêmios pelo mesmo participante.
                 </p>
                 <p className="mt-2 text-sm text-gray-400">
                     *O prêmio é pessoal e intransferível, não podendo ser trocado por dinheiro ou outro produto. A cor do produto é única.

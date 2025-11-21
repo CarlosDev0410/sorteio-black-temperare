@@ -95,13 +95,10 @@ export default function Home() {
               </span>
             </h1>
             <h2 className="text-2xl md:text-3xl text-red-300 font-semibold mb-4">
-              Concorra a 2 Liquidificadores Blender!
+              Concorra a um Blender Profissional de Alta Performance
             </h2>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              Participe do nosso sorteio e ganhe <strong className="text-red-300">2 Blender Profissionais</strong> de 1450w com 2 litros de capacidade e temporizador!
-              <span className="block text-sm text-gray-500 mt-2">
-                *Produtos de alta performance para profissionais
-              </span>
+              Serão 2 ganhadores levando para casa um <strong className="text-red-300">Blender de 1450w com 2L de capacidade e temporizador</strong>. Potência e performance profissional na sua bancada.
             </p>
           </div>
 
@@ -175,8 +172,8 @@ export default function Home() {
               <div className="text-center md:text-left">
                 <h4 className="text-white font-bold mb-3">Sobre o Sorteio</h4>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Sorteio válido até 28/11/2025<br />
-                  1 ganhador será sortado<br />
+                  Sorteio válido até 28/11/2025 às 13 Horas<br />
+                  2 ganhadores serão sortados<br />
                   Validação exclusiva por telefone
                 </p>
               </div>
