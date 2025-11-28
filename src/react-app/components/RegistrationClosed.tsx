@@ -28,8 +28,7 @@ export default function RegistrationClosed() {
                 <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-8 max-w-lg mx-auto">
                     <h3 className="text-red-400 font-bold mb-2 text-lg">Fique Atento ao Resultado!</h3>
                     <p className="text-gray-400">
-                        O sorteio será realizado hoje às <strong>14:00h</strong>.
-                        Acompanhe nossas redes sociais para conhecer os ganhadores.
+                        O sorteio foi realizado 28/11/2025 às <strong>14:00h</strong> em nosso <a href="https://www.instagram.com/lojastemperare/" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:underline">Instagram</a>.
                     </p>
                 </div>
 
