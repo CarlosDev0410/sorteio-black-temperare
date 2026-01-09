@@ -2,6 +2,9 @@
 
 Aplicação web para sorteio promocional da Black Friday da Temperare, oferecendo aos participantes a chance de ganhar 2 Liquidificadores Blender Profissionais de 1450w.
 
+### PREVIEW
+`blackfriday.lojastemperare.com.br/`
+
 ## 📋 Sobre o Projeto
 
 Este é um projeto de landing page interativa para o sorteio da Black Friday da Temperare, desenvolvido com React e TypeScript. A aplicação permite que os usuários se inscrevam no sorteio preenchendo um formulário com suas informações, incluindo dados pessoais, área de atuação e feedback opcional sobre a marca.
